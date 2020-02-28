@@ -3,7 +3,7 @@ import { withFormik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-const Login = () => {
+const Login = props => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
   return (
@@ -42,10 +42,14 @@ export default withFormik({
       password: "",
     };
   },
-  handleSubmit(values) {
+  handleSubmit(values, formikBag) {
+    const endP = "/api/login";
+
     axiosWithAuth()
-      .post("/api/login", values)
-      .then(res => localStorage.setItem("token", res.data.payload))
+      .post(endP, values)
+      .then(res => window.localStorage.setItem("token", res.data.payload));
+    formikBag.props.history
+      .push("/protected")
       .catch(err => console.log(err.response.data));
   },
 })(Login);
