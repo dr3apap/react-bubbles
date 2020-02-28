@@ -7,25 +7,24 @@ const Bubbles = ({ colors }) => {
   useEffect(() => {
     const generateBubbleData = colors.map((_, i) => ({
       value: Math.floor(Math.random() * (colors.length * 2)) + 1,
-      key: `${i + 1}`
+      key: `${i + 1}`,
     }));
     setBubbleData(generateBubbleData);
   }, [colors]);
 
   return (
-    <div className="bubble-wrap">
+    <div className='bubble-wrap'>
       <p>bubbles</p>
       <Svg width={400} height={400}>
         <Pack
           data={{
-            children: bubbleData
+            children: bubbleData,
           }}
           sum={datum => datum.value}
           size={[400, 400]}
           includeRoot={false}
           nodeEnter={d => ({ ...d, r: 0 })}
-          animate
-        >
+          animate>
           {nodes =>
             nodes
               .map(({ x, y, r, key }, i) => {

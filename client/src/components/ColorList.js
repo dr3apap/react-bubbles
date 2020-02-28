@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 const initialColor = {
   color: "",
@@ -20,8 +19,9 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
+    const endP = `/api/colors/${colorToEdit.id}`;
     axiosWithAuth()
-      .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
+      .put(endP, colorToEdit)
       .then(res => {
         console.log("Edit Response", res);
         updateColors([
@@ -33,8 +33,9 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const deleteColor = color => {
+    const endP = `/api/colors/${color.id}`;
     axiosWithAuth()
-      .delete(`/api/colors/${color.id}`)
+      .delete(endP)
       .then(res => {
         console.log("Delete Response", res);
         updateColors([...colors.filter(col => col.id !== color.id)]);
@@ -44,8 +45,9 @@ const ColorList = ({ colors, updateColors }) => {
 
   const addNewColor = e => {
     e.preventDefault();
+    const endP = "/api/colors";
     axiosWithAuth()
-      .post("/api/colors", newColor)
+      .post(endP, newColor)
       .then(res => {
         console.log("Add Response", res);
         updateColors([...colors, newColor]);

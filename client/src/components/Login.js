@@ -3,7 +3,7 @@ import { withFormik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-const Login = props => {
+const Login = ({ touched, errors }) => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
   return (
@@ -19,6 +19,7 @@ const Login = props => {
             placeholder='User-Name'
             autoComplete='off'
           />
+          <p>{touched.username && errors.username}</p>
         </div>
         <div>
           <label className='login'>Password</label>
@@ -28,6 +29,7 @@ const Login = props => {
             placeholder='Password'
             autoComplete='off'
           />
+          <p>{touched.password && errors.password}</p>
         </div>
         <button type='submit'>Sumbit&rarr;</button>
       </Form>
@@ -52,4 +54,11 @@ export default withFormik({
       .push("/protected")
       .catch(err => console.log(err.response.data));
   },
+
+  validationSchema: Yup.object().shape({
+    username: Yup.string().required(),
+    password: Yup.string()
+      .min(6)
+      .required(),
+  }),
 })(Login);
