@@ -13,8 +13,9 @@ const BubblePage = () => {
   const handleChange = {};
 
   useEffect(() => {
+    const endP = "/api/colors";
     axiosWithAuth()
-      .get("/api/colors")
+      .get(endP)
       .then(res => setColorList(res.data))
       .catch(err => console.log(err.response.data));
   }, []);
